@@ -1,4 +1,6 @@
-@main def hello: Unit = 
+package personal.rubikscube
+
+@main def hello: Unit =
   println("Hello world!")
   println(msg)
 

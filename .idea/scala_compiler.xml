@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="sbt 1" modules="rubiks-cube_9650,scala3-simple" />
+    <profile name="sbt 1" modules="rubiks-cube,rubiks-cube_9650,scala3-simple" />
   </component>
 </project>
