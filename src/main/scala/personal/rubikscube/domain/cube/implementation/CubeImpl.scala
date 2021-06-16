@@ -12,7 +12,7 @@ import personal.rubikscube.util.rotateRight
 
 import scala.collection.immutable.Nil
 
-private class CubeImpl private (private val state: Map[Face, FaceState])
+class CubeImpl private (private val state: Map[Face, FaceState])
     extends Cube {
 
   override def getFace(face: Face): FaceMatrix =
@@ -23,20 +23,6 @@ private class CubeImpl private (private val state: Map[Face, FaceState])
       case face: Face => rotateLayer(face, turn)
       case axis: Axis => rotateCube(axis, turn)
     }
-
-  override def solved: CubeImpl =
-    CubeImpl(
-      Map(
-        Face.Front -> solvedFace(Color.Red),
-        Face.Back -> solvedFace(Color.Orange),
-        Face.Up -> solvedFace(Color.White),
-        Face.Down -> solvedFace(Color.Yellow),
-        Face.Left -> solvedFace(Color.Green),
-        Face.Right -> solvedFace(Color.Blue)
-      )
-    )
-
-  private def solvedFace(color: Color): FaceState = List.fill(9)(color)
 
   private def rotateLayer(face: Face, turn: Turn): CubeImpl = {
     val rotatedCube = face match {
@@ -126,6 +112,20 @@ object CubeImpl {
   private type FaceState = List[Color]
 
   private type FaceTransform = FaceState => FaceState
+
+  def solved: CubeImpl =
+    CubeImpl(
+      Map(
+        Face.Front -> solvedFace(Color.Red),
+        Face.Back -> solvedFace(Color.Orange),
+        Face.Up -> solvedFace(Color.White),
+        Face.Down -> solvedFace(Color.Yellow),
+        Face.Left -> solvedFace(Color.Green),
+        Face.Right -> solvedFace(Color.Blue)
+      )
+    )
+
+  private def solvedFace(color: Color): FaceState = List.fill(9)(color)
 
   private def faceMatrix(faceState: FaceState): FaceMatrix = {
     val t0 :: t1 :: t2 :: t3 :: t4 :: t5 :: t6 :: t7 :: t8 :: Nil = faceState

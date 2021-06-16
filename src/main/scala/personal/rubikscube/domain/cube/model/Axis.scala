@@ -1,6 +1,6 @@
 package personal.rubikscube.domain.cube.model
 
-private[cube] enum Axis {
+enum Axis {
   // Left towards Right
   case X
   // Down towards Up

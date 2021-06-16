@@ -1,6 +1,6 @@
 package personal.rubikscube.domain.cube.model
 
-private[cube] enum Turn {
+enum Turn {
   case Clockwise, Counterclockwise, HalfTurn
   
   def reverse = this match {

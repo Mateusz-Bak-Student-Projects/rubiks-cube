@@ -1,0 +1,58 @@
+table {
+    width: 150px;
+    height: 150px;
+    border-spacing: 0;
+    position: absolute;
+}
+td {
+    width: 50px;
+    height: 50px;
+    border: medium solid black;
+    box-sizing: border-box;
+}
+.container {
+    position: relative;
+    margin: 20px;
+}
+.front {
+    top: 150px;
+    left: 150px;
+}
+.back {
+    top: 450px;
+    left: 150px;
+}
+.up {
+    top: 0px;
+    left: 150px;
+}
+.down {
+    top: 300px;
+    left: 150px;
+}
+.left {
+    top: 150px;
+    left: 0px;
+}
+.right {
+    top: 150px;
+    left: 300px;
+}
+.red {
+    background-color: red;
+}
+.orange {
+    background-color: darkorange;
+}
+.white {
+    background-color: white;
+}
+.yellow {
+    background-color: yellow;
+}
+.green {
+    background-color: green;
+}
+.blue {
+    background-color: blue;
+}
