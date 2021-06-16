@@ -4,16 +4,18 @@ import personal.rubikscube.domain.cube.implementation.CubeImpl.{
   FaceState,
   FaceTransform,
   faceMatrix,
-  transform,
-  setFace,
   rotateFace,
-  setAndRotateFace
+  setAndRotateFace,
+  setFace,
+  transform
 }
 import personal.rubikscube.domain.cube.model.Cube.FaceMatrix
 import personal.rubikscube.domain.cube.model.{Axis, Color, Cube, Face, Turn}
 import personal.rubikscube.util.rotateRight
 
+import scala.annotation.tailrec
 import scala.collection.immutable.Nil
+import scala.util.Random
 
 class CubeImpl private (private val state: Map[Face, FaceState]) extends Cube {
 
@@ -25,6 +27,22 @@ class CubeImpl private (private val state: Map[Face, FaceState]) extends Cube {
       case face: Face => rotateLayer(face, turn)
       case axis: Axis => rotateCube(axis, turn)
     }
+
+  override def shuffle: CubeImpl = {
+    val moveNumber = Random.nextInt(20) + 10
+    shuffle(this, moveNumber)
+  }
+
+  @tailrec
+  private def shuffle(cube: CubeImpl, moveNumber: Int): CubeImpl = {
+    if (moveNumber <= 0) {
+      return cube
+    }
+    val face = Face.fromOrdinal(Random.nextInt(6))
+    val turn = Turn.fromOrdinal(Random.nextInt(3))
+    val result = cube.applyMove(face, turn)
+    shuffle(result, moveNumber - 1)
+  }
 
   private def rotateLayer(face: Face, turn: Turn): CubeImpl = {
     val rotatedCube = face match {

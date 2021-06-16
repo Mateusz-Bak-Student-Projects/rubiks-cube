@@ -146,7 +146,7 @@ object App {
     shuffleButton.addEventListener(
       "click",
       { (e: dom.MouseEvent) =>
-        println("Not implemented yet")
+        cube = cube.shuffle
         updateDisplay
       }
     )

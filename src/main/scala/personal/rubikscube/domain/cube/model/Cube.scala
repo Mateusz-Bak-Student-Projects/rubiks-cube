@@ -7,6 +7,8 @@ trait Cube {
   def getFace(face: Face): FaceMatrix
 
   def applyMove(target: Face | Axis, turn: Turn): Cube
+
+  def shuffle: Cube
 }
 
 object Cube {
