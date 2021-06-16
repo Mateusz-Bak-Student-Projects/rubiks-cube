@@ -1,14 +1,6 @@
 package personal.rubikscube.domain.cube.implementation
 
-import personal.rubikscube.domain.cube.implementation.CubeImpl.{
-  FaceState,
-  FaceTransform,
-  faceMatrix,
-  rotateFace,
-  setAndRotateFace,
-  setFace,
-  transform
-}
+import personal.rubikscube.domain.cube.implementation.CubeImpl._
 import personal.rubikscube.domain.cube.model.Cube.FaceMatrix
 import personal.rubikscube.domain.cube.model.{Axis, Color, Cube, Face, Turn}
 import personal.rubikscube.util.rotateRight
@@ -30,18 +22,7 @@ class CubeImpl private (private val state: Map[Face, FaceState]) extends Cube {
 
   override def shuffle: CubeImpl = {
     val moveNumber = Random.nextInt(20) + 10
-    shuffle(this, moveNumber)
-  }
-
-  @tailrec
-  private def shuffle(cube: CubeImpl, moveNumber: Int): CubeImpl = {
-    if (moveNumber <= 0) {
-      return cube
-    }
-    val face = Face.fromOrdinal(Random.nextInt(6))
-    val turn = Turn.fromOrdinal(Random.nextInt(3))
-    val result = cube.applyMove(face, turn)
-    shuffle(result, moveNumber - 1)
+    CubeImpl.shuffle(this, moveNumber)
   }
 
   private def rotateLayer(face: Face, turn: Turn): CubeImpl = {
@@ -113,7 +94,7 @@ object CubeImpl {
     */
   private type FaceState = List[Color]
 
-  private type FaceTransform = (CubeImpl, FaceState) => FaceState
+  private type FaceTransform = (CubeImpl, Face) => FaceState
 
   def solved: CubeImpl =
     CubeImpl(
@@ -138,23 +119,37 @@ object CubeImpl {
     )
   }
 
-  private def setFace(
-      target: Face
-  )(cube: CubeImpl, faceState: FaceState): FaceState =
-    cube.getFaceState(target)
+  @tailrec
+  private def shuffle(cube: CubeImpl, moveNumber: Int): CubeImpl = {
+    if (moveNumber <= 0) {
+      return cube
+    }
+    val face = Face.fromOrdinal(Random.nextInt(6))
+    val turn = Turn.fromOrdinal(Random.nextInt(3))
+    val result = cube.applyMove(face, turn)
+    shuffle(result, moveNumber - 1)
+  }
 
-  private def rotateFace(
-      clockwiseTurns: Int
-  )(cube: CubeImpl, faceState: FaceState): FaceState = {
+  private def rotate(faceState: FaceState, clockwiseTurns: Int): FaceState = {
     val center :: border = faceState
     center :: (border.rotateRight(clockwiseTurns * 2))
   }
 
+  private def setFace(
+      target: Face
+  )(cube: CubeImpl, face: Face): FaceState =
+    cube.getFaceState(target)
+
+  private def rotateFace(
+      clockwiseTurns: Int
+  )(cube: CubeImpl, face: Face): FaceState =
+    rotate(cube.getFaceState(face), clockwiseTurns)
+
   private def setAndRotateFace(
       target: Face,
       clockwiseTurns: Int
-  )(cube: CubeImpl, faceState: FaceState): FaceState =
-    rotateFace(clockwiseTurns)(cube, setFace(target)(cube, faceState))
+  )(cube: CubeImpl, face: Face): FaceState =
+    rotate(cube.getFaceState(target), clockwiseTurns)
 
   private def transform(
       front: FaceTransform,
@@ -166,12 +161,12 @@ object CubeImpl {
   )(cube: CubeImpl): CubeImpl =
     CubeImpl(
       Map(
-        Face.Front -> front(cube, cube.getFaceState(Face.Front)),
-        Face.Back -> back(cube, cube.getFaceState(Face.Back)),
-        Face.Up -> up(cube, cube.getFaceState(Face.Up)),
-        Face.Down -> down(cube, cube.getFaceState(Face.Down)),
-        Face.Left -> left(cube, cube.getFaceState(Face.Left)),
-        Face.Right -> right(cube, cube.getFaceState(Face.Right))
+        Face.Front -> front(cube, Face.Front),
+        Face.Back -> back(cube, Face.Back),
+        Face.Up -> up(cube, Face.Up),
+        Face.Down -> down(cube, Face.Down),
+        Face.Left -> left(cube, Face.Left),
+        Face.Right -> right(cube, Face.Right)
       )
     )
 }

@@ -1,14 +1,15 @@
 package personal.rubikscube.webapp
 
-import personal.rubikscube.domain.cube.implementation.CubeImpl
-import personal.rubikscube.domain.cube.model.{Color, Cube, Face, Turn, Axis}
 import org.scalajs.dom
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.{HTMLElement, HTMLImageElement, Node}
+import personal.rubikscube.domain.cube.implementation.CubeImpl
+import personal.rubikscube.domain.cube.model.{Axis, Color, Cube, Face, Turn}
 import personal.rubikscube.domain.cube.model.Cube.FaceMatrix
 
 object App {
 
+  var cube: Cube = CubeImpl.solved
   val cubeDisplay = Map(
     Face.Front -> cubeFaceUI("front", Face.Front),
     Face.Back -> cubeFaceUI("back", Face.Back),
@@ -17,7 +18,6 @@ object App {
     Face.Left -> cubeFaceUI("left", Face.Left),
     Face.Right -> cubeFaceUI("right", Face.Right)
   )
-  var cube = CubeImpl.solved
 
   def run: Unit = {
     cubeGlobalUI
@@ -81,7 +81,6 @@ object App {
       }
       table.appendChild(row)
     }
-
     val clockwiseButton =
       document.createElement("img").asInstanceOf[HTMLImageElement]
     clockwiseButton.classList.add(name)
@@ -93,7 +92,6 @@ object App {
         updateDisplay
       }
     )
-
     val counterclockwiseButton =
       document.createElement("img").asInstanceOf[HTMLImageElement]
     counterclockwiseButton.classList.add(name)
@@ -105,7 +103,6 @@ object App {
         updateDisplay
       }
     )
-
     document.getElementById("buttons-clockwise").appendChild(clockwiseButton)
     document
       .getElementById("buttons-counterclockwise")
