@@ -20,6 +20,7 @@ object App {
   var cube = CubeImpl.solved
 
   def run: Unit = {
+    cubeGlobalUI
     updateDisplay
   }
 
@@ -110,5 +111,55 @@ object App {
       .getElementById("buttons-counterclockwise")
       .appendChild(counterclockwiseButton)
     document.getElementById("container").appendChild(table)
+  }
+
+  def cubeGlobalUI: Unit = {
+    for (axis <- Axis.values) {
+      val div = document.createElement("div")
+      div.textContent = axis.toString
+      val clockwiseButton =
+        document.createElement("img").asInstanceOf[HTMLImageElement]
+      clockwiseButton.src = "clockwise.png"
+      clockwiseButton.addEventListener(
+        "click",
+        { (e: dom.MouseEvent) =>
+          cube = cube.applyMove(axis, Turn.Clockwise)
+          updateDisplay
+        }
+      )
+      val counterclockwiseButton =
+        document.createElement("img").asInstanceOf[HTMLImageElement]
+      counterclockwiseButton.src = "counterclockwise.png"
+      counterclockwiseButton.addEventListener(
+        "click",
+        { (e: dom.MouseEvent) =>
+          cube = cube.applyMove(axis, Turn.Counterclockwise)
+          updateDisplay
+        }
+      )
+      div.appendChild(clockwiseButton)
+      div.appendChild(counterclockwiseButton)
+      document.getElementById("global-cube-buttons").appendChild(div)
+    }
+    val shuffleButton = document.createElement("button")
+    shuffleButton.textContent = "Shuffle"
+    shuffleButton.addEventListener(
+      "click",
+      { (e: dom.MouseEvent) =>
+        println("Not implemented yet")
+        updateDisplay
+      }
+    )
+    document.getElementById("global-cube-buttons").appendChild(shuffleButton)
+    val resetButton = document.createElement("button")
+    resetButton.textContent = "Reset"
+    resetButton.addEventListener(
+      "click",
+      { (e: dom.MouseEvent) =>
+        cube = CubeImpl.solved
+        updateDisplay
+      }
+    )
+    document.getElementById("global-cube-buttons").appendChild(resetButton)
   }
 }

@@ -4,72 +4,113 @@ table {
     border-spacing: 0;
     position: absolute;
 }
+
 td {
     width: 50px;
     height: 50px;
     border: medium solid dimgray;
     box-sizing: border-box;
 }
+
 img {
     width: 50px;
     height: 50px;
-    position: absolute;
+    margin: 15px;
     z-index: 999;
-    color: cyan;
 }
+
+button {
+    width: 155px;
+    margin: 15px;
+}
+
 #container {
     position: relative;
     margin: 20px;
 }
+
 #buttons-clockwise {
     position: relative;
     left: 25px;
     top: 25px;
 }
+
 #buttons-counterclockwise {
     position: relative;
     left: 75px;
     top: 75px;
 }
+
+#global-cube-buttons {
+    position: relative;
+    left: 500px;
+    top: 50px;
+    display: grid;
+    grid-template-rows: 75px 75px 75px;
+}
+
 .front {
     top: 150px;
     left: 150px;
+    position: absolute;
+    margin: 0;
 }
+
 .back {
     top: 450px;
     left: 150px;
+    position: absolute;
+    margin: 0;
 }
+
 .up {
     top: 0px;
     left: 150px;
+    position: absolute;
+    margin: 0;
 }
+
 .down {
     top: 300px;
     left: 150px;
+    position: absolute;
+    margin: 0;
 }
+
 .left {
     top: 150px;
     left: 0px;
+    position: absolute;
+    margin: 0;
 }
+
 .right {
     top: 150px;
     left: 300px;
+    position: absolute;
+    margin: 0;
 }
+
 .red {
     background-color: red;
 }
+
 .orange {
     background-color: darkorange;
 }
+
 .white {
     background-color: white;
 }
+
 .yellow {
     background-color: yellow;
 }
+
 .green {
     background-color: green;
 }
+
 .blue {
     background-color: blue;
 }
