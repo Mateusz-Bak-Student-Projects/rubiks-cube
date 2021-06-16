@@ -1,29 +1,29 @@
 package personal.rubikscube.webapp
 
 import personal.rubikscube.domain.cube.implementation.CubeImpl
-import personal.rubikscube.domain.cube.model.{Color, Cube, Face}
+import personal.rubikscube.domain.cube.model.{Color, Cube, Face, Turn, Axis}
 import org.scalajs.dom
 import org.scalajs.dom.document
-import org.scalajs.dom.raw.{HTMLElement, Node}
+import org.scalajs.dom.raw.{HTMLElement, HTMLImageElement, Node}
 import personal.rubikscube.domain.cube.model.Cube.FaceMatrix
 
 object App {
 
   val cubeDisplay = Map(
-    Face.Front -> cubeFace("front"),
-    Face.Back -> cubeFace("back"),
-    Face.Up -> cubeFace("up"),
-    Face.Down -> cubeFace("down"),
-    Face.Left -> cubeFace("left"),
-    Face.Right -> cubeFace("right")
+    Face.Front -> cubeFaceUI("front", Face.Front),
+    Face.Back -> cubeFaceUI("back", Face.Back),
+    Face.Up -> cubeFaceUI("up", Face.Up),
+    Face.Down -> cubeFaceUI("down", Face.Down),
+    Face.Left -> cubeFaceUI("left", Face.Left),
+    Face.Right -> cubeFaceUI("right", Face.Right)
   )
+  var cube = CubeImpl.solved
 
   def run: Unit = {
-    val cube = CubeImpl.solved
-    updateDisplay(cube)
+    updateDisplay
   }
 
-  private def updateDisplay(cube: Cube): Unit = {
+  private def updateDisplay: Unit = {
     cubeDisplay.foreach { (face, node) =>
       val faceMatrix = cube.getFace(face)
       val colors = colorClassNames(faceMatrix)
@@ -31,10 +31,8 @@ object App {
       for (i <- 0 to 2) {
         val cells = rows(i).childNodes
         for (j <- 0 to 2) {
-          if (cells(j).isInstanceOf[HTMLElement]) {
-            val cell = cells(j).asInstanceOf[HTMLElement]
-            cell.className = colors(i)(j)
-          }
+          val cell = cells(j).asInstanceOf[HTMLElement]
+          cell.className = colors(i)(j)
         }
       }
     }
@@ -71,7 +69,7 @@ object App {
       case Color.Blue   => "blue"
     }
 
-  private def cubeFace(name: String): Node = {
+  private def cubeFaceUI(name: String, face: Face): Node = {
     val table = document.createElement("table")
     table.classList.add(name)
     for (i <- 1 to 3) {
@@ -82,6 +80,35 @@ object App {
       }
       table.appendChild(row)
     }
+
+    val clockwiseButton =
+      document.createElement("img").asInstanceOf[HTMLImageElement]
+    clockwiseButton.classList.add(name)
+    clockwiseButton.src = "clockwise.png"
+    clockwiseButton.addEventListener(
+      "click",
+      { (e: dom.MouseEvent) =>
+        cube = cube.applyMove(face, Turn.Clockwise)
+        updateDisplay
+      }
+    )
+
+    val counterclockwiseButton =
+      document.createElement("img").asInstanceOf[HTMLImageElement]
+    counterclockwiseButton.classList.add(name)
+    counterclockwiseButton.src = "counterclockwise.png"
+    counterclockwiseButton.addEventListener(
+      "click",
+      { (e: dom.MouseEvent) =>
+        cube = cube.applyMove(face, Turn.Counterclockwise)
+        updateDisplay
+      }
+    )
+
+    document.getElementById("buttons-clockwise").appendChild(clockwiseButton)
+    document
+      .getElementById("buttons-counterclockwise")
+      .appendChild(counterclockwiseButton)
     document.getElementById("container").appendChild(table)
   }
 }

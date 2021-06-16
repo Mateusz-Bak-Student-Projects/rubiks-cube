@@ -7,12 +7,29 @@ table {
 td {
     width: 50px;
     height: 50px;
-    border: medium solid black;
+    border: medium solid dimgray;
     box-sizing: border-box;
 }
-.container {
+img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    z-index: 999;
+    color: cyan;
+}
+#container {
     position: relative;
     margin: 20px;
+}
+#buttons-clockwise {
+    position: relative;
+    left: 25px;
+    top: 25px;
+}
+#buttons-counterclockwise {
+    position: relative;
+    left: 75px;
+    top: 75px;
 }
 .front {
     top: 150px;
