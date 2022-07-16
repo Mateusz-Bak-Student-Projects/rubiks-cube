@@ -1,4 +1,8 @@
-## sbt project compiled with Scala 3
+## rubiks-cube
+
+### Preview
+
+https://mateusz-bak-student-projects.github.io/rubiks-cube/
 
 ### Usage
 

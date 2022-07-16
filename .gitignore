@@ -111,11 +111,12 @@ fabric.properties
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
 
 dist/*
-target/
+target/*
 lib_managed/
 src_managed/
 project/boot/
 project/plugins/project/
+project/**/target/
 .history
 .cache
 .lib/
@@ -167,3 +168,8 @@ $RECYCLE.BIN/
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
+# main.js for GitHub Pages
+target/**/*
+!target/scala-3.0.0
+!target/scala-3.0.0/rubiks-cube-fastopt
+!target/scala-3.0.0/rubiks-cube-fastopt/main.js
